@@ -1,0 +1,66 @@
+1-      کل فروش شرکت چه مقدار است
+
+(foroshe kol):
+select sum(unitprice) as total_sales
+from sale_table;
+
+2-      تعداد متمایز مشتریانی که از این شرکت خرید داشته اند، چند تاست؟
+
+(moshtariyane motemayez):
+select count(DISTINCT customer) as total_customers
+from sale_table;
+
+3-      این شرکت از هر محصول چه مقدار فروخته است؟
+
+(az har mahsol cheghadr forokhte):
+select product, SUM(quantity * unitprice) as total_sales
+from sales_table
+group by product;
+
+4-      یک کوئری بنویسید که در آن مشتریانی نمایش داده شوند که حداقل یک فاکتور بیش
+از مبلغ 1500 دارند و به ازای هر کدام از این مشتریان، مبلغ خرید، تعداد فاکتور و
+تعداد آیتم خریداری شده نمایش داده شود.
+
+(mablaghe balaye 1500(:
+select customer, sum(amount) as total_purchase_amount, count(product) as total_product_purchased
+from  sales_table
+where amount > 1500
+group by customer_id;
+
+5-      مبلغ سود و درصد سود حاصل از فروش کل را محاسبه نمایید
+
+(mab;aghe sod va darsad):
+SELECT SUM(unitprice) as net_profit, ((SUM(unitprice)) / SUM(unitprice)) * 100 AS profit_margin
+FROM sales_table;
+
+6-      با فرض اینکه خریدهای هر مشتری در هر روز فقط 1 بار شمرده شود، در مجموع چند
+مشتری از شرکت خرید داشته اند
+
+select count(*) as single_purchase_customers
+from (
+  select customer
+  from sales_table
+  group by customer
+  having count(*) = 1
+) as subquery;
+
+ب – جدول چارت سازمانی که در لینک زیر نیز قابل مشاهده است، مربوط به چارت
+سازمانی شرکت پخش مذکور می باشد که نام و آی دی هر کارشناس به همراه مدیر مستقیم
+بالادستی و آیدی مدیر بالادستی را نمایش می دهد
+
+علاوه بر ساخت این جدول با استفاده از کوئری، در کنار نام هر کارشناس، لول آن کارشناس در چارت سازمانی و بالاترین مدیر
+مربوط به آن کارشناس در چارت سازمانی را با استفاده از کوئری ثبت کنید
+
+create table organizational_chart (
+  id INT primary key,
+  employee_name varchar(100),
+  manager_id INT,
+  level INT
+);
+
+علاوه بر ساخت این جدول با استفاده از کوئری، در کنار نام هر کارشناس، لول آن کارشناس در چارت سازمانی و بالاترین مدیر
+مربوط به آن کارشناس در چارت سازمانی را با استفاده از کوئری ثبت کنید
+
+select m.*, ifnull(d.sale_profit, 10) as sales_profit
+from sales_table m
+left join sales_profit d on m.product = d.product;
