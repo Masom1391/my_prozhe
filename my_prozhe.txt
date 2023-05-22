@@ -1,18 +1,15 @@
 1-      کل فروش شرکت چه مقدار است
 
-(foroshe kol):
 select sum(unitprice) as total_sales
 from sale_table;
 
 2-      تعداد متمایز مشتریانی که از این شرکت خرید داشته اند، چند تاست؟
 
-(moshtariyane motemayez):
 select count(DISTINCT customer) as total_customers
 from sale_table;
 
 3-      این شرکت از هر محصول چه مقدار فروخته است؟
 
-(az har mahsol cheghadr forokhte):
 select product, SUM(quantity * unitprice) as total_sales
 from sales_table
 group by product;
@@ -21,7 +18,6 @@ group by product;
 از مبلغ 1500 دارند و به ازای هر کدام از این مشتریان، مبلغ خرید، تعداد فاکتور و
 تعداد آیتم خریداری شده نمایش داده شود.
 
-(mablaghe balaye 1500(:
 select customer, sum(amount) as total_purchase_amount, count(product) as total_product_purchased
 from  sales_table
 where amount > 1500
@@ -29,7 +25,6 @@ group by customer_id;
 
 5-      مبلغ سود و درصد سود حاصل از فروش کل را محاسبه نمایید
 
-(mab;aghe sod va darsad):
 SELECT SUM(unitprice) as net_profit, ((SUM(unitprice)) / SUM(unitprice)) * 100 AS profit_margin
 FROM sales_table;
 
